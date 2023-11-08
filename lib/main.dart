@@ -7,6 +7,6 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 void main(List<String> args) {
   runApp(GetMaterialApp(
     theme: ThemeData(fontFamily: "ProductSans"),
-    home: ChatPage(),
+    home: ChatList(),
   ));
 }

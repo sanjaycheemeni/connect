@@ -17,7 +17,7 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var sender_id = 'sender1@example.com';
+    var sender_id = 'user1@example.com';
     _deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       //

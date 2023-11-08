@@ -1,5 +1,77 @@
 {
     "data":[
-        
-    ]
+        {
+          "content": "Hey, how's it going?",
+          "sender": "user1@example.com",
+          "receiver": "user2@example.com",
+          "time": "10:15",
+          "status": "seen"
+        },
+        {
+          "content": "I'm good, thanks!",
+          "sender": "user2@example.com",
+          "receiver": "user1@example.com",
+          "time": "10:20",
+          "status": "seen"
+        },
+        {
+          "content": "What are you up to today?",
+          "sender": "user1@example.com",
+          "receiver": "user2@example.com",
+          "time": "10:25",
+          "status": "seen"
+        },
+        {
+          "content": "Just working on some projects.",
+          "sender": "user2@example.com",
+          "receiver": "user1@example.com",
+          "time": "10:30",
+          "status": "seen"
+        },
+        {
+          "content": "Sounds productive!",
+          "sender": "user1@example.com",
+          "receiver": "user2@example.com",
+          "time": "10:35",
+          "status": "seen"
+        },
+        {
+          "content": "Yes, trying to be.",
+          "sender": "user2@example.com",
+          "receiver": "user1@example.com",
+          "time": "10:40",
+          "status": "seen"
+        },
+        {
+          "content": "Got any plans for the weekend?",
+          "sender": "user1@example.com",
+          "receiver": "user2@example.com",
+          "time": "10:45",
+          "status": "seen"
+        },
+        {
+          "content": "Not sure yet, maybe some hiking.",
+          "sender": "user2@example.com",
+          "receiver": "user1@example.com",
+          "time": "10:50",
+          "status": "seen"
+        },
+        {
+          "content": "That sounds fun!",
+          "sender": "user1@example.com",
+          "receiver": "user2@example.com",
+          "time": "10:55",
+          "status": "seen"
+        },
+        {
+          "content": "Indeed it does.",
+          "sender": "user2@example.com",
+          "receiver": "user1@example.com",
+          "time": "11:00",
+          "status": "seen"
+        }
+      ]
+      
 }
+
+

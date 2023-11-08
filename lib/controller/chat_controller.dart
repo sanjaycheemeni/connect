@@ -26,7 +26,7 @@ class ChatController extends GetxController {
     messages.add(Message(
         content: send.text.toString(),
         time: '01:01',
-        sender: 'sender1@example.com',
+        sender: 'user1@example.com',
         receiver: 'receiver1@example.com',
         status: 'seen'));
 
