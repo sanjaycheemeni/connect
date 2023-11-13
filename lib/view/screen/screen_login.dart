@@ -1,15 +1,13 @@
+import 'package:connect/controller/AuthController.dart';
 import 'package:connect/view/widget/GoogleLoginCard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatelessWidget {
+  AuthController authController = Get.put(AuthController());
+  LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     // User? user = FirebaseAuth.instance.currentUser;
@@ -49,7 +47,9 @@ class _LoginPageState extends State<LoginPage> {
               height: 50,
             ),
 
-            googleLoginCard()
+            googleLoginCard(
+              authController: authController,
+            )
           ],
         ),
       )),

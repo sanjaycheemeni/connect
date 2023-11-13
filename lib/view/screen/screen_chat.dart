@@ -11,15 +11,18 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 class ChatPage extends StatelessWidget {
   double _deviceHeight = 0;
 
-  ChatController chatController = Get.put(ChatController());
-
-  ChatPage({super.key});
+  final receiverUser;
+  late ChatController chatController;
+  ChatPage({super.key, required this.receiverUser}) {
+    chatController = Get.put(ChatController(receiverUser: receiverUser));
+  }
 
   @override
   Widget build(BuildContext context) {
-    var sender_id = 'user1@example.com';
+    // var sender_id = 'user1@example.com';
     _deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       //
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       // appbar
@@ -29,60 +32,75 @@ class ChatPage extends StatelessWidget {
       ),
 
       // body
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-              color: const Color.fromARGB(255, 255, 255, 255),
-              height: _deviceHeight - 140,
-              child: Obx(
-                () => ListView.builder(
-                    reverse: false,
-                    controller: chatController.scrollController.value,
-                    itemCount: chatController.messages.value.length,
-                    itemBuilder: (BuildContext, index) {
-                      //  check is LastMessage  or Not
-                      var isLastMessage = true;
-                      try {
-                        if (chatController.messages.value[index + 1].sender
-                                .toLowerCase()
-                                .toString() ==
-                            chatController.messages.value[index].sender
-                                .toLowerCase()
-                                .toString()) {
-                          isLastMessage = false;
+      body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        // physics: RangeMaintainingScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+                margin: EdgeInsets.only(top: 15),
+                color: const Color.fromARGB(255, 255, 255, 255),
+                height: _deviceHeight -
+                    195 -
+                    MediaQuery.of(context).viewInsets.bottom,
+                child: Obx(
+                  () => ListView.builder(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      reverse: false,
+                      controller: chatController.scrollController.value,
+                      itemCount: chatController.messages.value.length,
+                      itemBuilder: (BuildContext, index) {
+                        //  check is LastMessage  or Not
+                        var isLastMessage = true;
+                        var msgTime = DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(
+                                chatController.messages.value[index].time));
+                        try {
+                          if (chatController.messages.value[index + 1].sender
+                                  .toLowerCase()
+                                  .toString() ==
+                              chatController.messages.value[index].sender
+                                  .toLowerCase()
+                                  .toString()) {
+                            isLastMessage = false;
+                          }
+                        } catch (e) {
+                          isLastMessage = true;
                         }
-                      } catch (e) {
-                        isLastMessage = true;
-                      }
 
-                      if (chatController.messages.value[index].sender
-                              .toLowerCase()
-                              .toString() ==
-                          sender_id.toLowerCase().toString()) {
-                        return SenderMessageBubble(
+                        if (chatController.messages.value[index].sender
+                                .toLowerCase()
+                                .toString() !=
+                            receiverUser.toLowerCase().toString()) {
+                          return SenderMessageBubble(
+                              message:
+                                  chatController.messages.value[index].content,
+                              time: '${msgTime.hour}:${msgTime.minute}',
+                              LastMessage: isLastMessage);
+                        }
+
+                        return ReceivedMessageBubble(
                             message:
                                 chatController.messages.value[index].content,
-                            time: chatController.messages.value[index].time,
+                            time: '${msgTime.hour}:${msgTime.minute}',
                             LastMessage: isLastMessage);
-                      }
-
-                      return ReceivedMessageBubble(
-                          message: chatController.messages.value[index].content,
-                          time: chatController.messages.value[index].time,
-                          LastMessage: isLastMessage);
-                    }),
-              )),
-          ChatInputBar(
-            controller: chatController.send,
-            ontap: () {
-              chatController.sendMessage();
-            },
-          ),
-          SizedBox(
-            height: 10,
-          )
-        ],
+                      }),
+                )),
+            ChatInputBar(
+              marginOfContext:
+                  0, //MediaQuery.of(context).viewInsets.bottom + 1,
+              controller: chatController.send,
+              ontap: () {
+                chatController.sendMessage();
+              },
+            ),
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
       ),
     );
   }
