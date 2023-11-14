@@ -1,7 +1,6 @@
-import 'dart:ffi';
-
 import 'package:connect/controller/user_controller.dart';
 import 'package:connect/view/screen/screen_chat.dart';
+import 'package:connect/view/screen/screen_users.dart';
 import 'package:connect/view/widget/Avatar.dart';
 import 'package:connect/view/widget/FriendCard.dart';
 import 'package:connect/view/widget/chatAvatar.dart';
@@ -15,15 +14,16 @@ class ChatList extends StatelessWidget {
   ChatList({super.key});
 
   @override
-  @override
   Widget build(BuildContext context) {
     print('VAl => ' + GetStorage().read('IS_LOGGED_IN'));
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Color(0xFF8D85FF),
-          onPressed: () {},
+          backgroundColor: Color(0xFF2434C5),
+          onPressed: () {
+            Get.to(UsersPage());
+          },
           label: Text('New Connection')),
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: SafeArea(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +35,7 @@ class ChatList extends StatelessWidget {
               children: [
                 Text(
                   'Chats',
-                  style: TextStyle(color: Color(0xFF8D85FF), fontSize: 30),
+                  style: TextStyle(color: Color(0xFF2434C5), fontSize: 30),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 15),

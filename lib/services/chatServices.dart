@@ -25,4 +25,11 @@ class ChatService {
     print('returning list...${messages.toString()}');
     return messages;
   }
+
+  send(Message msg) {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('Messages');
+
+    return users.add(msg.toJson());
+  }
 }

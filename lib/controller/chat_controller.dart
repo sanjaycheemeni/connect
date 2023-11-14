@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect/model/messages.dart';
 import 'package:connect/services/chatServices.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,17 +25,44 @@ class ChatController extends GetxController {
   }
 
   Future<void> getMessages() async {
-    messages(await ChatService().fetchMessages(receiverUser));
+    List<Message> msg = [];
+    var id = GetStorage().read('EMAIL_ID');
+    try {
+      FirebaseFirestore.instance.collection('Messages').snapshots().listen(
+        (QuerySnapshot<Map<String, dynamic>> chatSnapshot) {
+          List<String> usersList = [];
+          for (QueryDocumentSnapshot<Map<String, dynamic>> chatDoc
+              in chatSnapshot.docs) {
+            if ((chatDoc.data()['sender'] == receiverUser &&
+                    chatDoc.data()['receiver'] == id) ||
+                (chatDoc.data()['sender'] == id &&
+                    chatDoc.data()['receiver'] == receiverUser)) {
+              print('---------------${chatDoc.data()}----------------');
+              msg.add(Message.fromJson(chatDoc.data()));
+            }
+          }
+        },
+      );
+      print(msg);
+
+      messages.assignAll(msg);
+    } catch (e) {
+      print("Firebase Service error:" + e.toString());
+    }
+    print('returning list...${messages.toString()}');
   }
 
-  void sendMessage() {
+  Future<void> sendMessage() async {
     if (send.text.isNotEmpty) {
-      messages.add(Message(
+      var msg = Message(
           content: send.text.toString(),
           time: DateTime.now().millisecondsSinceEpoch.toString(),
           sender: GetStorage().read('EMAIL_ID'),
           receiver: receiverUser,
-          status: 'sent'));
+          status: 'sent');
+      var ou = await ChatService().send(msg);
+      print(ou);
+      // messages.add(msg);
 
       scrollController.value.animateTo(
           scrollController.value.position.maxScrollExtent + 50,

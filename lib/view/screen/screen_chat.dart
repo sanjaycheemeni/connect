@@ -21,6 +21,7 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // var sender_id = 'user1@example.com';
     _deviceHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       //
@@ -57,6 +58,7 @@ class ChatPage extends StatelessWidget {
                         var msgTime = DateTime.fromMillisecondsSinceEpoch(
                             int.parse(
                                 chatController.messages.value[index].time));
+
                         try {
                           if (chatController.messages.value[index + 1].sender
                                   .toLowerCase()

@@ -27,6 +27,17 @@ class User {
       status: json['status'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'timestamp': timestamp,
+      'name': username,
+      'lastMessage': lastMessage,
+      'verification': verification,
+      'status': status,
+    };
+  }
 }
 
 List<User> chatListFromJson(String data) => List<User>.from(json
